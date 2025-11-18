@@ -1,0 +1,81 @@
+def run_grade_program():
+    """
+    Збирає оцінки студентів та виводить звіт з аналізом.
+    """
+    grades = {}
+    print("Введіть ім'я студента та оцінку (1-12). Для завершення напишіть 'stop' замість імені.")
+
+    # 1. ЗБІР ДАНИХ (Блок введення)
+    while True:
+        name = input("Ім'я студента: ").strip()
+        if name.lower() == 'stop':
+            break
+
+        while True:
+            try:
+                grade_input = input(f"Оцінка для {name}: ").strip()
+                grade = int(grade_input)
+                if 1 <= grade <= 12:
+                    grades[name] = grade
+                    break
+                else:
+                    print("Оцінка має бути від 1 до 12.")
+            except ValueError:
+                print("Некоректний формат. Введіть ціле число.")
+        
+    if not grades:
+        print("Дані не введені. Програма завершена.")
+        return
+
+    # 2. АНАЛІЗ ТА ЗВІТ (Обчислення та виведення)
+    
+    total = len(grades)
+    grade_list = list(grades.values())
+
+    print("")
+
+    print("ЗВІТ ПО ОЦІНКАХ СТУДЕНТІВ")
+    
+    # A. Список усіх студентів
+    print("")
+    print("Список Студентів:")
+    for name, score in grades.items():
+        print(f" - {name}: {score}")
+
+    # B. Середній бал
+    average = sum(grade_list) / total
+    print("")
+    print("Середній Бал Групи:")
+    print(f"{average:.2f}")
+    
+    # Функція для виведення категорії
+    def print_category(title, min_g, max_g):
+        # Фільтрує оцінки та повертає список імен
+        students_in_category = [name for name, grade in grades.items() if min_g <= grade <= max_g]
+        count = len(students_in_category)
+        
+        print("")
+        print(f"{title} ({min_g}-{max_g}): {count}")
+        if count > 0:
+            for name in students_in_category:
+                print(f"   - {name} ({grades[name]})")
+
+    # Виклик функції для кожної категорії
+    print_category("Відмінники", 10, 12)
+    print_category("Хорошисти", 7, 9)
+    print_category("Відстаючі", 4, 6)
+    print_category("Не здали", 1, 3)
+
+    print("========================================")
+
+
+# ЗАПУСК ПРОГРАМИ
+if __name__ == "__main__":
+    run_grade_program()
+
+    print("="*40)
+
+
+# ЗАПУСК ПРОГРАМИ
+if __name__ == "__main__":
+    run_grade_program()
